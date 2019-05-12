@@ -4,6 +4,7 @@ import models.Course
 import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import tables.DBConfigs.db
 
 class Courses(tag: Tag) extends Table[Course](tag, "courses") {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
@@ -13,8 +14,6 @@ class Courses(tag: Tag) extends Table[Course](tag, "courses") {
 }
 
 object Courses {
-
-  val db = Database.forConfig("mydb")
 
   val courses = TableQuery[Courses]
 

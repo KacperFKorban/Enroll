@@ -1,12 +1,12 @@
 package tables
 
 import models.{Student, Course, StudentToCourse}
-import slick.driver.PostgresDriver.api._
+import slick.jdbc.PostgresProfile.api._
 import tables.Students._
 import tables.Courses._
-
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import tables.DBConfigs.db
 
 class StudentsToCourses(tag: Tag) extends Table[StudentToCourse](tag, "studentstocourses") {
 
@@ -22,47 +22,27 @@ class StudentsToCourses(tag: Tag) extends Table[StudentToCourse](tag, "studentst
 
 object StudentsToCourses {
 
-  val db = Database.forConfig("mydb")
-
   val studentsToCourses = TableQuery[StudentsToCourses]
 
   def all = {
-//    val allStudentsWithCourses = students
-//      .join(studentsToCourses).on(_.id === _.studentId)
-////      .join(courses).on(_._2.courseId === _.id)
-//      .to[List]
-//      .result
 
-//    val grouped = students
-//      .join(studentsToCourses).on(_.id === _.studentId)
-//      .join(courses).on(_._2.courseId === _.id)
-//      .groupBy(_._1._1.id)
-//      .to[List]
-//      .result
+    val allStudentsWithCourses = students
+      .join(studentsToCourses).on(_.id === _.studentId)
+      .join(courses).on(_._2.courseId === _.id)
+      .to[List]
+      .result
 
-//    val res = for {
-//      studentResult <- allStudentsWithCourses
-//    } yield {
-//      studentResult.map { row =>
-//        val studentRow = row._1._1
-//        val courseRow = row._2
-//        (studentRow.id, studentRow.firstName, studentRow.lastName, courseRow.name)
-//      }
-//    }
+    val res = for {
+      studentResult <- allStudentsWithCourses
+    } yield {
+      studentResult.map { row =>
+        val studentRow = row._1._1
+        val courseRow = row._2
+        (studentRow, courseRow.name)
+      }
+    }
 
-//    val res = for {
-//      studentResult <- allStudentsWithCourses
-//    } yield {
-//      studentResult.map { row =>
-//        val studentRow = row._1
-//        val sToCourseRow = row._2
-//        (studentRow.id, studentRow.firstName, studentRow.lastName, sToCourseRow._3)
-//      }
-//    }
-
-//    db.run(res)
-
-    db.run(studentsToCourses.to[List].result)
+    db.run(res)
   }
 
 }
