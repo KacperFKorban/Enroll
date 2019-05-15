@@ -14,12 +14,14 @@ trait WritableImplicits {
 
   implicit val CourseWrites = new Writes[Course] {
     override def writes(o: Course): JsValue = Json.obj(
+      "id" -> o.id,
       "name" -> o.name
     )
   }
 
   implicit val StudentWrites = new Writes[Student] {
     override def writes(o: Student): JsValue = Json.obj(
+      "id" -> o.id,
       "firstName" -> o.firstName,
       "lastName" -> o.lastName
     )
@@ -27,6 +29,7 @@ trait WritableImplicits {
 
   implicit val StudentToCourseWrites = new Writes[StudentToCourse] {
     override def writes(o: StudentToCourse): JsValue = Json.obj(
+      "id" -> o.id,
       "studentId" -> o.studentId,
       "courseId" -> o.courseId
     )
