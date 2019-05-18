@@ -32,7 +32,7 @@ object StudentsToCourses {
       .to[List]
       .result
 
-    val res = for {
+    val list = for {
       studentResult <- allStudentsWithCourses
     } yield {
       studentResult.map { row =>
@@ -42,7 +42,39 @@ object StudentsToCourses {
       }
     }
 
-    db.run(res)
+    val res = Map()
+
+    db.run(list).map(_.foldLeft(Map[Student, List[String]]()){ (m, s) =>
+      val l: List[String] = s._2 :: m.getOrElse(s._1, List())
+      m.updated(s._1, l)
+    }.toList)
+  }
+
+  def forId(id: Int) = {
+
+    val allStudentsWithCourses = students
+      .filter(_.id === id)
+      .join(studentsToCourses).on(_.id === _.studentId)
+      .join(courses).on(_._2.courseId === _.id)
+      .to[List]
+      .result
+
+    val list = for {
+      studentResult <- allStudentsWithCourses
+    } yield {
+      studentResult.map { row =>
+        val studentRow = row._1._1
+        val courseRow = row._2
+        (studentRow, courseRow.name)
+      }
+    }
+
+    val res = Map()
+
+    db.run(list).map(_.foldLeft(Map[Student, List[String]]()){ (m, s) =>
+      val l: List[String] = s._2 :: m.getOrElse(s._1, List())
+      m.updated(s._1, l)
+    }.toList.head)
   }
 
 }

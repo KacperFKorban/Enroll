@@ -19,4 +19,8 @@ extends AbstractController(cc) {
     StudentsToCourses.all.map(Ok(_))
   )
 
+  def getForId(id: Int) = Action.async(
+    StudentsToCourses.forId(id).map(Ok(_))
+  )
+
 }

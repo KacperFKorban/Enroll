@@ -11,3 +11,5 @@ GET     /students/all               controllers.StudentController.getAll
 GET     /courses/all                controllers.CourseController.getAll
 
 GET     /students/allWithCourses    controllers.StudentController.getAllWithCourses
+
+GET     /students/forId/:id         controllers.StudentController.getForId(id: Int)
