@@ -76,4 +76,5 @@ object StudentsToCourses {
 
   def insert(studentId: Int, courseId: Int) =
     db.run(studentsToCourses.map(x => (x.studentId, x.courseId)) += (studentId, courseId))
+
 }
