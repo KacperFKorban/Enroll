@@ -17,7 +17,7 @@ extends AbstractController(cc) {
   )
 
   def getAllWithCourses = Action.async(
-    StudentsToCourses.all.map(x => Ok(Json.toJson(x)))
+    StudentsToCourses.all.map(_.map(x => Json.toJson(x))).map(x => Ok(Json.toJson(x)))
   )
 
   def getForId(id: Int) = Action.async(
