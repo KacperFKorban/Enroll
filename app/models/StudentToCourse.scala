@@ -22,14 +22,18 @@ object StudentToCourse {
 
   implicit object StudentWithCoursesFormat extends Format[(Student, List[Int])] {
     override def reads(json: JsValue): JsResult[(Student, List[Int])] = {
-      val student = (json \ "student").as[Student]
-      val courseIds = (json \ "courseIds").as[List[Int]]
-      JsSuccess((student, courseIds))
+      val id = (json \ "id").as[Int]
+      val firstName = (json \ "name").as[String]
+      val lastName = (json \ "surname").as[String]
+      val courseIds = (json \ "courses").as[List[Int]]
+      JsSuccess((Student(id, firstName, lastName), courseIds))
     }
 
     override def writes(o: (Student, List[Int])): JsValue = Json.obj(
-      "student" -> o._1,
-      "courseIds" -> o._2
+      "id" -> o._1.id,
+      "name" -> o._1.firstName,
+      "surname" -> o._1.lastName, 
+      "courses" -> o._2
     )
   }
 
