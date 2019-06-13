@@ -31,6 +31,7 @@ extends AbstractController(cc) {
     courseIds
       .map(c => (student.id, c))
       .foreach(x => StudentsToCourses.insert(x._1, x._2))
+    // TODO remove actual courses to make room for new ones
     Ok
   }
 

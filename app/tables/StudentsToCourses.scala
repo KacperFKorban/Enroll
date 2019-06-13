@@ -62,14 +62,14 @@ object StudentsToCourses {
       studentResult.map { row =>
         val studentRow = row._1._1
         val courseRow = row._2
-        (studentRow, courseRow.name)
+        (studentRow, courseRow.id)
       }
     }
 
     val res = Map()
 
-    db.run(list).map(_.foldLeft(Map[Student, List[String]]()){ (m, s) =>
-      val l: List[String] = s._2 :: m.getOrElse(s._1, List())
+    db.run(list).map(_.foldLeft(Map[Student, List[Int]]()){ (m, s) =>
+      val l: List[Int] = s._2 :: m.getOrElse(s._1, List())
       m.updated(s._1, l)
     }.toList.head)
   }
