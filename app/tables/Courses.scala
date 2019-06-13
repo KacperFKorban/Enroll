@@ -20,4 +20,9 @@ object Courses {
   def all: Future[List[Course]] =
     db.run(courses.to[List].result)
 
+  def forId(id: Int): Future[List[Course]] =
+    db.run(courses.filter(_.id === id).to[List].result)
+
+  def insert(course: Course) =
+    db.run(courses += course)
 }

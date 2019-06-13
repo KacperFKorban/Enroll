@@ -9,8 +9,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import tables.DBConfigs.db
 
 class StudentsToCourses(tag: Tag) extends Table[StudentToCourse](tag, "studentstocourses") {
-
-  def id = column[Int]("id")
+  def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def studentId = column[Int]("studentid")
   def courseId = column[Int]("courseid")
 
@@ -25,7 +24,6 @@ object StudentsToCourses {
   val studentsToCourses = TableQuery[StudentsToCourses]
 
   def all = {
-
     val allStudentsWithCourses = students
       .join(studentsToCourses).on(_.id === _.studentId)
       .join(courses).on(_._2.courseId === _.id)
@@ -51,7 +49,6 @@ object StudentsToCourses {
   }
 
   def forId(id: Int) = {
-
     val allStudentsWithCourses = students
       .filter(_.id === id)
       .join(studentsToCourses).on(_.id === _.studentId)
@@ -77,4 +74,6 @@ object StudentsToCourses {
     }.toList.head)
   }
 
+  def insert(studentId: Int, courseId: Int) =
+    db.run(studentsToCourses.map(x => (x.studentId, x.courseId)) += (studentId, courseId))
 }
