@@ -26,7 +26,8 @@ extends AbstractController(cc) {
 
   def insertWithCourses = Action { request =>
     val json = request.body.asJson.get
-    val (student, courseIds) = json.as[(Student, List[Int])]
+    val (student, courses) = json.as[(Student, List[String])]
+    val courseIds = courses.map(_.toInt)
     Students.insert(student)
     courseIds
       .map(c => (student.id, c))
