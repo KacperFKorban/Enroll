@@ -30,7 +30,7 @@ object Students {
   def insert(student: Student) =
     db.run(students += student)
 
-  def delete(student: Student) =
-    db.run(students.filter(_.id === student.id).delete)
+  def delete(id: Int) =
+    db.run(students.filter(_.id === id).delete)
 
 }
