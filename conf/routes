@@ -17,3 +17,5 @@ GET     /students/forId/:id         controllers.StudentController.getForId(id: I
 POST    /students/insertWithCourses controllers.StudentController.insertWithCourses
 
 POST    /students/insert            controllers.StudentController.insert
+
+POST    /students/delete            controllers.StudentController.delete
