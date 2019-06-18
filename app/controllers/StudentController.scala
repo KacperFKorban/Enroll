@@ -31,7 +31,7 @@ extends AbstractController(cc) {
     Ok
   }
 
-  def deleteById(id: Int) = Action { request =>
+  def deleteById(id: Int) = Action { _ =>
     Students.delete(id)
     Ok
   }
@@ -40,8 +40,8 @@ extends AbstractController(cc) {
     val json = request.body.asJson.get
     val (student, courses) = json.as[(Student, List[String])]
     val courseIds = courses.map(_.toInt)
-    Students.delete(student.id).onComplete { t =>
-      Students.insert(student).onComplete { x =>
+    Students.delete(student.id).onComplete { _ =>
+      Students.insert(student).onComplete { _ =>
         courseIds
           .map(c => (student.id, c))
           .foreach(x => StudentsToCourses.insert(x._1, x._2))
