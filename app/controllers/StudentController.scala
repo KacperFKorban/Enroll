@@ -35,8 +35,8 @@ extends AbstractController(cc) {
     val json = request.body.asJson.get
     val (student, courses) = json.as[(Student, List[String])]
     val courseIds = courses.map(_.toInt)
+    Students.delete(student)
     Students.insert(student)
-    StudentsToCourses.deleteStudentsCourses(student)
     courseIds
       .map(c => (student.id, c))
       .foreach(x => StudentsToCourses.insert(x._1, x._2))
