@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import models.Course
 import play.api.mvc._
 import tables.Courses
 import models.Course._
@@ -15,6 +16,13 @@ class CourseController @Inject()(cc: ControllerComponents)
   def getAll = Action.async(
     Courses.all.map(x => Ok(Json.toJson(x)))
   )
+
+  def insert = Action { request =>
+    val json = request.body.asJson.get
+    val course = json.as[Course]
+    Courses.insert(course)
+    Ok
+  }
 
 }
 

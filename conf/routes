@@ -18,4 +18,6 @@ POST    /students/insertWithCourses controllers.StudentController.insertWithCour
 
 POST    /students/insert            controllers.StudentController.insert
 
+POST    /courses/insert            controllers.CourseController.insert
+
 DELETE  /students/delete/:id        controllers.StudentController.deleteById(id: Int)

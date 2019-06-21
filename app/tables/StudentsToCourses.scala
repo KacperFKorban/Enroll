@@ -15,8 +15,8 @@ class StudentsToCourses(tag: Tag) extends Table[StudentToCourse](tag, "studentst
 
   def * = (id, studentId, courseId) <> (StudentToCourse.tupled, StudentToCourse.unapply)
 
-  def student = foreignKey("STUDENT_FK", studentId, students)(_.id)
-  def course = foreignKey("COURSE_FK", courseId, courses)(_.id)
+  def student = foreignKey("STUDENT_FK", studentId, students)(_.id, onUpdate=ForeignKeyAction.Cascade, onDelete=ForeignKeyAction.Cascade)
+  def course = foreignKey("COURSE_FK", courseId, courses)(_.id, onUpdate=ForeignKeyAction.Cascade, onDelete=ForeignKeyAction.Cascade)
 }
 
 object StudentsToCourses {
