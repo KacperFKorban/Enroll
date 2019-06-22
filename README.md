@@ -26,5 +26,6 @@ Setting up db server:
 Running:
 1) git clone https://github.com/KacperFKorban/Enroll
 2) cd Enroll
-3) in app/conf/application.conf fill in propertiies url, user and password if using other than recommended
+3) in conf/application.conf fill in propertiies url, user and password if using other than recommended
+4) go to app/tables/DBConfig.scala and run main to create schemas and populate exampke courses
 4) sbt run
